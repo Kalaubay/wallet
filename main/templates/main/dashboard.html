@@ -1,7 +1,8 @@
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
-    <title>{% block title %}Bank Dashboard{% endblock %}</title>
+    <title>{% block title %}{% trans "Bank Dashboard" %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -80,29 +81,34 @@
 <body>
     <aside>
         <h5><i class="fa-solid fa-user"></i>{{ request.user.username }}</h5>
-        <span class="logo">BankSystem</span>
+        <h5>{{ request.user.profile.phone }}</h5>
 
-        <h6 class="mt-3">Меню</h6>
+        <h6 class="mt-3"><span class="menu-title">{% trans "Меню" %}</span></h6>
         <ul>
-            <a href="{% url 'mybank' %}"><li><i class="fa-solid fa-house mx-2"></i>Мой Банк</li></a>
-            <a href="{% url 'transfer' %}"><li><i class="fa-solid fa-wallet mx-2"></i>Переводы</li></a>
-            <a href="#"><li><i class="fa-solid fa-money-bill-transfer mx-2"></i>Платежи</li></a>
-            <a href="{% url 'history' %}"><li><i class="fa-solid fa-clock-rotate-left mx-2"></i>История</li></a>
-            <a href="#"><li><i class="fa-solid fa-coins mx-2"></i>Депозиттер</li></a>
+            <a href="{% url 'mybank' %}"><li><i class="fa-solid fa-house mx-2"></i><span class="menu-item">{% trans "Мой Банк" %}</span></li></a>
+            <a href="{% url 'transfer' %}"><li><i class="fa-solid fa-wallet mx-2"></i><span class="menu-item">{% trans "Переводы" %}</span></li></a>
+            <a href="{% url 'payment' %}"><li><i class="fa-solid fa-money-bill-transfer mx-2"></i><span class="menu-item">{% trans "Платежи" %}</span></li></a>
+            <a href="{% url 'history' %}"><li><i class="fa-solid fa-clock-rotate-left mx-2"></i><span class="menu-item">{% trans "История" %}</span></li></a>
+            <a href="{% url 'deposit' %}"><li><i class="fa-solid fa-coins mx-2"></i><span class="menu-item">{% trans "Депозиттер" %}</span></li></a>
         </ul>
+        {% get_current_language as LANGUAGE_CODE %}
+        <form method="post" action="{% url 'set_language' %}">
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% csrf_token %}
+            <div class="language_select mt-auto">
+                <select name="language" class="form-select mt-2" onchange="this.form.submit()">
+                    <option value="kk" {% if LANGUAGE_CODE == 'kk' %}selected{% endif %}>{% trans "KK" %}</option>
+                    <option value="ru" {% if LANGUAGE_CODE == 'ru' %}selected{% endif %}>{% trans "RU" %}</option>
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>{% trans "EN" %}</option>
+                </select>
+            </div>
+        </form>
 
         <form action="{% url 'logout' %}" method="POST" class="w-100 mt-auto">
-			{% csrf_token %}
-			<button class="btn btn-danger w-80 mt-2" type="submit">Шығу</button>
-		</form>
+            {% csrf_token %}
+            <button class="btn btn-danger w-80 mt-2" type="submit"><span class="btn-text">{% trans "Шығу" %}</span></button>
+        </form>
 
-        <div class="language_select mt-auto">
-            <select class="form-select mt-2">
-                <option>KK</option>
-                <option>RU</option>
-                <option>EN</option>
-            </select>
-        </div>
     </aside>
 
     <main>
@@ -110,4 +116,3 @@
     </main>
 </body>
 </html>
-

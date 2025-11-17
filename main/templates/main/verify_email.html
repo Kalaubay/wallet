@@ -1,9 +1,10 @@
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Электрондық пошта растау</title>
+<title>{% trans "Электрондық пошта растау" %}</title>
 <style>
     body {
         margin: 0;
@@ -89,13 +90,13 @@
 
 <form method="POST" class="form-container">
     {% csrf_token %}
-    <h2>Электрондық пошта растау</h2>
-    <p>Сізге жіберілген 4 таңбалы кодты енгізіңіз</p>
+    <h2><span class="form-title">{% trans "Электрондық пошта растау" %}</span></h2>
+    <p><span class="form-text">{% trans "Сізге жіберілген 4 таңбалы кодты енгізіңіз" %}</span></p>
 
-    <label for="email_code">Код</label>
-    <input type="text" name="email_code" id="email_code" required placeholder="Кодты енгізіңіз">
+    <label for="email_code"><span class="label-text">{% trans "Код" %}</span></label>
+    <input type="text" name="email_code" id="email_code" required placeholder="{% trans 'Кодты енгізіңіз' %}">
 
-    <button type="submit">Растау</button>
+    <button type="submit"><span class="btn-text">{% trans "Растау" %}</span></button>
 </form>
 
 </body>

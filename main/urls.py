@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('', views.base, name="base"),
+    path('', views.login_view, name="login"),
 
     path('mybank/', views.mybank, name="mybank"),
 
@@ -20,5 +20,7 @@ urlpatterns = [
     path("ajax/find-user/", views.find_user_ajax, name="find_user_ajax"),
 
     path('history/', views.history, name='history'),
+    path('payment/', views.payment, name='payment'),
+    path('deposit/', views.deposit, name='deposit'),
 
 ]

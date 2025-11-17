@@ -6,12 +6,6 @@
 
 {% block content %}
 
-<!-- Баланс -->
-<div class="card p-3 bg-light mb-4">
-    <h5 class="mb-1"><span class="section-title">{% trans "Сіздің балансыңыз:" %}</span></h5>
-    <p class="balance fs-3 fw-bold">{{ request.user.profile.balance }} ₸</p>
-</div>
-
 <!-- ДЕПОЗИТТЕР -->
 <div class="card p-3 bg-light mb-3">
     <h5 class="text-primary mb-3"><span class="section-title">{% trans "Депозиттер" %}</span></h5>
@@ -26,16 +20,6 @@
     <div class="d-flex justify-content-between align-items-center p-3 border rounded bg-white">
         <span class="fw-semibold"><span class="deposit-name">{% trans "Camry 80" %}</span></span>
         <span class="fw-bold fs-5 text-primary"><span class="deposit-amount">{% trans "10 000 ₸" %}</span></span>
-    </div>
-</div>
-
-<!-- БОНУС -->
-<div class="card p-3 bg-light mb-3">
-    <h5 class="text-success mb-3"><span class="section-title">{% trans "Бонустар" %}</span></h5>
-
-    <div class="d-flex justify-content-between align-items-center p-3 border rounded bg-white">
-        <span class="fw-semibold"><span class="bonus-name">{% trans "Бонус" %}</span></span>
-        <span class="fw-bold fs-5 text-success"><span class="bonus-amount">{% trans "5 000 ₸" %}</span></span>
     </div>
 </div>
 

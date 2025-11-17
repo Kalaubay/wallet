@@ -1,142 +1,98 @@
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кіру</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% trans "Кіру" %}</title>
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
     body {
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: #f2f2f2;
+        background: linear-gradient(135deg, #e7e5f6, #f1f1f7);
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
     }
 
-    .form-container {
-        background-color: #fff;
-        padding: 30px 25px;
-        border-radius: 15px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        width: 100%;
-        max-width: 350px;
+    .otp-input {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+        font-weight: bold;
         text-align: center;
-    }
-
-    h2 {
-        margin-bottom: 20px;
-        color: #333;
-    }
-
-    label {
-        display: block;
-        text-align: left;
-        margin-bottom: 5px;
-        font-weight: 600;
-    }
-
-    input[type="email"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-    }
-
-    .code-inputs {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-
-    .code-inputs input {
-        width: 60px;
-        padding: 10px;
-        font-size: 1.2rem;
-        text-align: center;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        transition: all 0.2s;
-    }
-
-    .code-inputs input:focus {
-        border-color: #6C63FF;
-        box-shadow: 0 0 5px rgba(108,99,255,0.5);
-        outline: none;
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
         border-radius: 10px;
-        border: none;
-        background-color: #6C63FF;
-        color: #fff;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
     }
 
-    button:hover {
-        background-color: #5a52d4;
+    .otp-input:focus {
+        border-color: #6C63FF !important;
+        box-shadow: 0 0 8px rgba(108,99,255,0.4) !important;
     }
-    .code-input {
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            text-align: center;
-            margin: 5px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
+
+    .btn-main {
+        background-color: #6C63FF;
+        color: white;
+        font-weight: 600;
+    }
+
+    .btn-main:hover {
+        background-color: #5b54dd;
+        color: #fff;
+    }
 </style>
 </head>
 <body>
 
-<form method="POST" class="form-container">
-    {% csrf_token %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-    {% csrf_token %}
-    <h2>Кіру</h2>
+<div class="card shadow-lg p-4" style="width: 400px; border-radius: 18px;">
+    <h3 class="text-center mb-3"><span class="heading">{% trans "Кіру" %}</span></h3>
 
-    <label for="email">Электрондық пошта</label>
-    <input type="email" name="email" id="email" required placeholder="email@example.com">
+    <form method="POST">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% csrf_token %}
 
-    <label>Қауіпсіздік коды</label>
-     <div class="mb-3">
-         <div class="d-flex justify-content-between">
-             <input type="password" maxlength="1" class="code-input" name="repeat1" required>
-             <input type="password" maxlength="1" class="code-input" name="repeat2" required>
-             <input type="password" maxlength="1" class="code-input" name="repeat3" required>
-             <input type="password" maxlength="1" class="code-input" name="repeat4" required>
-         </div>
-     </div>
-    <button type="submit">Кіру</button>
-</form>
+        <!-- PHONE LOGIN -->
+        <label class="form-label"><span class="form-label-text">{% trans "Телефон нөмірі" %}</span></label>
+        <input type="text" class="form-control mb-3" name="phone" required placeholder="+7XXXXXXXXXX">
+
+        <label class="form-label"><span class="form-label-text">{% trans "Қауіпсіздік коды" %}</span></label>
+
+        <div class="d-flex justify-content-between mb-4">
+            <input type="password" maxlength="1" class="form-control otp-input" name="repeat1" required>
+            <input type="password" maxlength="1" class="form-control otp-input" name="repeat2" required>
+            <input type="password" maxlength="1" class="form-control otp-input" name="repeat3" required>
+            <input type="password" maxlength="1" class="form-control otp-input" name="repeat4" required>
+        </div>
+
+        <button type="submit" class="btn btn-main w-100 mb-3"><span class="btn-text">{% trans "Кіру" %}</span></button>
+
+        <a href="{% url 'register' %}" class="btn btn-outline-secondary w-100">
+            <span class="btn-text">{% trans "Тіркелу" %}</span>
+        </a>
+    </form>
+</div>
 
 <script>
-        const inputs = document.querySelectorAll('.code-input');
-        inputs.forEach((input, idx) => {
-            input.addEventListener('input', () => {
-                if(input.value.length === 1 && idx < inputs.length - 1){
-                    inputs[idx + 1].focus();
-                }
-            });
-            input.addEventListener('keydown', (e) => {
-                if(e.key === "Backspace" && input.value === "" && idx > 0){
-                    inputs[idx - 1].focus();
-                }
-            });
+    const inputs = document.querySelectorAll('.otp-input');
+    inputs.forEach((input, i) => {
+        input.addEventListener("input", () => {
+            if (input.value.length === 1 && i < inputs.length - 1) {
+                inputs[i + 1].focus();
+            }
         });
-    </script>
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && input.value === "" && i > 0) {
+                inputs[i - 1].focus();
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

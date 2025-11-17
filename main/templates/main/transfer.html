@@ -1,19 +1,20 @@
 {% extends "main/dashboard.html" %}
+{% load static i18n %}
 
-{% block title %}Аударым{% endblock %}
+{% block title %}{% trans "Аударым" %}{% endblock %}
 
 {% block content %}
 <div class="container py-4" style="max-width: 500px; margin: auto;">
 
     <!-- Баланс -->
     <div class="card p-4 mb-4 shadow-sm" style="border-radius: 16px; border: 1px solid #e1e1e1; background: #fafafa;">
-        <h6 class="text-muted">Сіздің балансыңыз</h6>
+        <h6 class="text-muted"><span class="balance-label">{% trans "Сіздің балансыңыз" %}</span></h6>
         <p class="fs-3 fw-bold mt-1">{{ request.user.profile.balance }} ₸</p>
     </div>
 
     <!-- Аударым формасы -->
     <div class="card p-4 shadow-sm" style="border-radius: 16px; border: 1px solid #e1e1e1;">
-        <h5 class="mb-3 fw-semibold">Аударым жасау</h5>
+        <h5 class="mb-3 fw-semibold"><span class="form-title">{% trans "Аударым жасау" %}</span></h5>
 
         <form method="POST">
             {% csrf_token %}
@@ -25,17 +26,17 @@
 
             <!-- Телефон нөмірі -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Қабылдаушының телефон нөмірі</label>
+                <label class="form-label fw-semibold"><span class="form-label-text">{% trans "Қабылдаушының телефон нөмірі" %}</span></label>
                 <input type="text" id="id_receiver_phone" name="receiver_phone" class="form-control"
                        placeholder="+7 ___ ___ __ __"
                        oninput="findUser()"
                        style="padding: 12px; border-radius: 12px; border: 1px solid #ccc;">
             </div>
-            <p class="text-muted mt-1">Қабылдаушы: <b id="receiverName">–</b></p>
+            <p class="text-muted mt-1"><span class="receiver-label">{% trans "Қабылдаушы" %}</span>: <b id="receiverName">–</b></p>
 
             <!-- Сома -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Сома</label>
+                <label class="form-label fw-semibold"><span class="form-label-text">{% trans "Сома" %}</span></label>
                 <input type="number" name="amount" class="form-control"
                        placeholder="0 ₸"
                        style="padding: 12px; border-radius: 12px; border: 1px solid #ccc;">
@@ -44,7 +45,7 @@
             <!-- Жіберу батырмасы -->
             <button type="submit" class="btn btn-primary w-100 mt-2"
                     style="border-radius: 12px; padding: 12px 0; font-size: 16px;">
-                Жіберу
+                <span class="btn-text">{% trans "Жіберу" %}</span>
             </button>
 
         </form>
@@ -54,14 +55,14 @@
 
 <script>
     function findUser() {
-    let phone = document.getElementById("id_receiver_phone").value
-        .replace(/\s+/g, '') // бос орындарды алып тастау
-        .replace(/-/g, '');  // дефисті алып тастау
-    fetch(`/ajax/find-user/?phone=` + phone)
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("receiverName").innerText = data.name;
-        });
-}
+        let phone = document.getElementById("id_receiver_phone").value
+            .replace(/\s+/g, '') // бос орындарды алып тастау
+            .replace(/-/g, '');  // дефисті алып тастау
+        fetch(`/ajax/find-user/?phone=` + phone)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("receiverName").innerText = data.name;
+            });
+    }
 </script>
 {% endblock %}

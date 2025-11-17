@@ -1,9 +1,10 @@
+{% load static i18n %}
 <!DOCTYPE html>
-<html lang="kk">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тіркелу</title>
+    <title>{% trans "Тіркелу" %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f0f2f5; }
@@ -29,31 +30,31 @@
 </head>
 <body>
     <div class="register-container">
-           {% if messages %}
+        {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">{{ message }}</div>
             {% endfor %}
         {% endif %}
-        <h3 class="text-center mb-4">Тіркелу</h3>
+        <h3 class="text-center mb-4"><span class="heading">{% trans "Тіркелу" %}</span></h3>
         <form method="POST">
             {% csrf_token %}
             <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" class="form-control" name="username" placeholder="Username" required>
+                <label class="form-label"><span class="form-label-text">{% trans "Username" %}</span></label>
+                <input type="text" class="form-control" name="username" placeholder="{% trans 'Username' %}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
+                <label class="form-label"><span class="form-label-text">{% trans "Email" %}</span></label>
+                <input type="email" class="form-control" name="email" placeholder="{% trans 'example@gmail.com' %}" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Телефон нөмірі</label>
+                <label class="form-label"><span class="form-label-text">{% trans "Телефон нөмірі" %}</span></label>
                 <input type="text" class="form-control" name="phone" placeholder="+7XXXXXXXXXX" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">4 таңбалы кодты енгізіңіз</label>
+                <label class="form-label"><span class="form-label-text">{% trans "4 таңбалы кодты енгізіңіз" %}</span></label>
                 <div class="d-flex justify-content-between">
                     <input type="password" maxlength="1" class="code-input" name="code1" required>
                     <input type="password" maxlength="1" class="code-input" name="code2" required>
@@ -63,7 +64,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">4 таңбалы кодты қайталаңыз</label>
+                <label class="form-label"><span class="form-label-text">{% trans "4 таңбалы кодты қайталаңыз" %}</span></label>
                 <div class="d-flex justify-content-between">
                     <input type="password" maxlength="1" class="code-input" name="repeat1" required>
                     <input type="password" maxlength="1" class="code-input" name="repeat2" required>
@@ -72,7 +73,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 btn-register">Кодты растау</button>
+            <button type="submit" class="btn btn-primary w-100 btn-register"><span class="btn-text">{% trans "Кодты растау" %}</span></button>
         </form>
     </div>
 

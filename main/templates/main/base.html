@@ -2,12 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Welcome</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f4f5f7;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      width: 380px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      color: #333;
+      letter-spacing: 1px;
+    }
+
+    .btn {
+      display: block;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .login {
+      background: #4f46e5;
+      color: white;
+    }
+    .login:hover {
+      background: #3b36c5;
+    }
+
+    .register {
+      background: #e5e7eb;
+      color: #333;
+    }
+    .register:hover {
+      background: #d5d7db;
+    }
+  </style>
+
 </head>
 <body>
-    <h1>AAAAAAAAAAAAAAA</h1>
 
-    <a href="{% url 'login' %}">LOGIN</a>
-    <a href="{% url 'register' %}">REGISTR</a>
+<div class="card">
+  <h1>Қош келдіңіз!</h1>
+
+  <a href="{% url 'login' %}" class="btn login">LOGIN</a>
+  <a href="{% url 'register' %}" class="btn register">REGISTER</a>
+</div>
+
 </body>
 </html>

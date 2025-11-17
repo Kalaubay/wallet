@@ -11,19 +11,18 @@ from django.utils import timezone
 from django.contrib.auth import login as auth_login
 from django.conf import settings
 
-from .models import User, TransferOTP , User
-from .models import Profile
 from django.db import transaction
 from django.db import models
 from .forms import TransferForm, ConfirmCodeForm
 
 from .utils import send_confirm_code
-from .models import Transfer
-
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as auth_logout
 
 from django.http import JsonResponse
+
+
+from .models import TransferOTP, Profile, Transfer
 
 def logout(request):
     auth_logout(request)
@@ -99,10 +98,6 @@ def transfer(request):
     return render(request, "main/transfer.html")
 
 
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .models import TransferOTP, Profile, Transfer
-
 @transaction.atomic
 def confirm_transfer(request):
     if request.method == "POST":
@@ -176,7 +171,7 @@ def dashboard(request):
 
 def login_view(request):
     if request.method == "POST":
-        email = request.POST.get('email')
+        phone = request.POST.get("phone")
         code = ''.join([
             request.POST.get('repeat1', ''),
             request.POST.get('repeat2', ''),
@@ -184,20 +179,18 @@ def login_view(request):
             request.POST.get('repeat4', '')
         ])
 
-        # Мұнда кодты тексеру логикасы
-        # Мысалы: User моделінде code сақталған делік
         try:
-            user = User.objects.get(email=email)
-            profile = user.profile  # Егер Profile моделінде code болса
+            profile = Profile.objects.get(phone=phone)
+            user = profile.user
             if profile.secret_code == code:
                 login(request, user)
-                return redirect('mybank')  # Dashboard-қа бағыттау
+                return redirect("mybank")  # Сіздің басты бет URL
             else:
-                messages.error(request, "Код дұрыс емес")
-        except User.DoesNotExist:
-            messages.error(request, "Пайдаланушы табылмады")
+                return render(request, "main/login.html", {"error": "Қауіпсіздік коды дұрыс емес"})
+        except Profile.DoesNotExist:
+            return render(request, "main/login.html", {"error": "Телефон нөмірі табылмады"})
 
-    return render(request, 'main/login.html')
+    return render(request, "main/login.html")
 
 def register(request):
     if request.method == "POST":
@@ -267,3 +260,10 @@ def send_code_email(user_email, code):
         [user_email],
         fail_silently=False,
     )
+
+
+def payment(request):
+    return render(request, 'main/payments.html')
+
+def deposit(request):
+    return render(request, 'main/deposit.html')
