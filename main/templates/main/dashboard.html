@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Bank Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+        aside {
+            width: 260px;
+            background-color: #1f2937;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        aside img {
+            width: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        aside .logo {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        aside h5, aside h6 {
+            margin: 0 0 10px 0;
+        }
+        aside ul {
+            list-style: none;
+            padding: 0;
+            flex-grow: 1;
+        }
+        aside ul a {
+            text-decoration: none;
+            color: white;
+        }
+        aside ul li {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 6px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        aside ul li:hover {
+            background-color: #374151;
+            cursor: pointer;
+        }
+        aside ul li i {
+            margin-right: 10px;
+        }
+        aside .btn {
+            width: 100%;
+        }
+        main {
+            flex-grow: 1;
+            padding: 30px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .transactions table {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <h5><i class="fa-solid fa-user"></i>{{ request.user.username }}</h5>
+        <span class="logo">BankSystem</span>
+
+        <h6 class="mt-3">Меню</h6>
+        <ul>
+            <a href="{% url 'mybank' %}"><li><i class="fa-solid fa-house mx-2"></i>Мой Банк</li></a>
+            <a href="{% url 'transfer' %}"><li><i class="fa-solid fa-wallet mx-2"></i>Переводы</li></a>
+            <a href="#"><li><i class="fa-solid fa-money-bill-transfer mx-2"></i>Платежи</li></a>
+            <a href="{% url 'history' %}"><li><i class="fa-solid fa-clock-rotate-left mx-2"></i>История</li></a>
+            <a href="#"><li><i class="fa-solid fa-coins mx-2"></i>Депозиттер</li></a>
+        </ul>
+
+        <form action="{% url 'logout' %}" method="POST" class="w-100 mt-auto">
+			{% csrf_token %}
+			<button class="btn btn-danger w-80 mt-2" type="submit">Шығу</button>
+		</form>
+
+        <div class="language_select mt-auto">
+            <select class="form-select mt-2">
+                <option>KK</option>
+                <option>RU</option>
+                <option>EN</option>
+            </select>
+        </div>
+    </aside>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
+

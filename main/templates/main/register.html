@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тіркелу</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; }
+        .register-container {
+            max-width: 450px;
+            margin: 80px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .code-input {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            margin: 5px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .btn-register { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+           {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <h3 class="text-center mb-4">Тіркелу</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Телефон нөмірі</label>
+                <input type="text" class="form-control" name="phone" placeholder="+7XXXXXXXXXX" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">4 таңбалы кодты енгізіңіз</label>
+                <div class="d-flex justify-content-between">
+                    <input type="password" maxlength="1" class="code-input" name="code1" required>
+                    <input type="password" maxlength="1" class="code-input" name="code2" required>
+                    <input type="password" maxlength="1" class="code-input" name="code3" required>
+                    <input type="password" maxlength="1" class="code-input" name="code4" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">4 таңбалы кодты қайталаңыз</label>
+                <div class="d-flex justify-content-between">
+                    <input type="password" maxlength="1" class="code-input" name="repeat1" required>
+                    <input type="password" maxlength="1" class="code-input" name="repeat2" required>
+                    <input type="password" maxlength="1" class="code-input" name="repeat3" required>
+                    <input type="password" maxlength="1" class="code-input" name="repeat4" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-register">Кодты растау</button>
+        </form>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.code-input');
+        inputs.forEach((input, idx) => {
+            input.addEventListener('input', () => {
+                if(input.value.length === 1 && idx < inputs.length - 1){
+                    inputs[idx + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if(e.key === "Backspace" && input.value === "" && idx > 0){
+                    inputs[idx - 1].focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

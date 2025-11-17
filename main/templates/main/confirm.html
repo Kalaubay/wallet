@@ -1,0 +1,34 @@
+{% extends "main/dashboard.html" %}
+{% block title %}Растау{% endblock %}
+
+{% block content %}
+<div class="container py-4" style="max-width: 400px; margin: auto;">
+
+    <div class="card p-4 shadow-sm" style="border-radius: 16px;">
+        <h5 class="fw-semibold mb-3">Аударымды растау</h5>
+
+        <p class="text-muted">
+            Электронды поштаңызға жіберілген 6 таңбалы кодты енгізіңіз.
+        </p>
+
+        <form method="POST">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <input type="text" name="otp_code"
+                   class="form-control"
+                   placeholder="XXXXXX"
+                   style="padding: 12px; border-radius: 12px;">
+            <button type="submit"
+                    class="btn btn-success w-100 mt-3"
+                    style="border-radius: 12px; padding: 12px;">
+                Растау
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
