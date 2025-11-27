@@ -42,7 +42,6 @@ def find_user_ajax(request):
     try:
         profile = Profile.objects.get(phone=phone)
         user = profile.user
-        # Толық ат немесе username
         full_name = user.get_full_name() or user.username
         return JsonResponse({"name": full_name})
     except Profile.DoesNotExist:
@@ -51,7 +50,6 @@ def find_user_ajax(request):
 def transfer_history(request):
     user = request.user
 
-    # 📝 Жіберілген немесе қабылданған аударымдарды аламыз
     transfers = Transfer.objects.filter(
         models.Q(sender=user) | models.Q(receiver=user)
     ).order_by('-created_at')
@@ -64,14 +62,12 @@ def transfer(request):
         sender_user = request.user
         sender_profile = sender_user.profile
 
-        # Түзетілген жол
         receiver_number = request.POST.get("receiver_phone")
         amount = float(request.POST.get("amount"))
 
         if sender_profile.balance < amount:
             return render(request, "main/transfer.html", {"error": "Баланс жеткіліксіз"})
 
-        # OTP кодын генерациялау
         otp_code = str(random.randint(100000, 999999))
         print("Generated OTP:", otp_code)
 
@@ -83,7 +79,6 @@ def transfer(request):
             receiver_number=receiver_number
         )
 
-        # Email жіберу
         send_mail(
             subject="Аударма кодын растау",
             message=f"Сіз жасағыңыз келген аударым үшін код: {otp_code}",
@@ -112,7 +107,6 @@ def confirm_transfer(request):
             messages.error(request, "Код дұрыс емес")
             return redirect("confirm_transfer")
 
-        # Аударымды жасау
         sender_profile = request.user.profile
         try:
             receiver_profile = Profile.objects.get(phone=otp.receiver_number)
@@ -130,8 +124,6 @@ def confirm_transfer(request):
         otp.verified = True
         otp.save()
 
-        # -----------------------------
-        # Transfer тарихына жазу алдында тексеру
         print("Sender ID:", request.user.id)
         print("Receiver ID:", receiver_profile.user.id)
         print("Amount:", otp.amount)
@@ -144,11 +136,9 @@ def confirm_transfer(request):
         print("Saved transfer ID:", t.id)
         # -----------------------------
 
-        # Сәттілік хабарламасы
         messages.success(request, f"{otp.amount} ₸ сәтті аударылды {receiver_profile.user.get_full_name()}")
 
-        # Аударымнан кейін Transfer History бетіне бағыттау
-        return redirect("transfer")  # redirect өзгертілді
+        return redirect("transfer")
 
     return render(request, "main/confirm.html")
 

@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 USE_I18N = True
 USE_L10N = True   # Локализацияны қосады (форматтар үшін)
 USE_TZ = True
-
+TIME_ZONE = 'Asia/Almaty'
 LANGUAGE_CODE = 'ru'
 
 LANGUAGES = [
